@@ -42,4 +42,15 @@ jobs:
         with:
           name: my-build-zip
           path: build.zip
+
+       # --- Create full repo artifact ---
+      - name: Create repository zip
+        run: |
+          zip -r repo-code.zip . -x "*.git*" "*.github*"
+
+      - name: Upload repository artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: repository-zip
+          path: repo-code.zip
       

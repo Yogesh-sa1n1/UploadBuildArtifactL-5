@@ -1,0 +1,45 @@
+name: Hello world lesson 1
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print environment / context
+        run: |
+          echo "Repository Name: $GITHUB_REPOSITORY"
+          echo "Event name: $GITHUB_EVENT_NAME"
+          echo "REF $GITHUB_REF"
+          echo "Github workflow $GITHUB_WORKFLOW"
+
+      - name: print hello world
+        run: echo "Hello Yogesh"
+
+      - name: show files
+        run: |
+          pwd
+          ls -la
+          lscpu
+          
+
+      - name: Create build artifact (zip)
+        run: |
+          mkdir build
+          echo "hello Github action" > build/hello.txt
+          zip -r build.zip build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-build-zip
+          path: build.zip
+      
